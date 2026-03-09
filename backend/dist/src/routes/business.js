@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_1 = require("../middleware/auth");
+const business_1 = require("../controllers/business");
+const router = (0, express_1.Router)();
+router.use(auth_1.requireAuth);
+router.get('/stats', business_1.getDashboardStats);
+router.get('/conversations/:contactId', business_1.getConversations);
+router.get('/rules', business_1.getRules);
+router.post('/rules', business_1.createRule);
+router.delete('/rules/:id', business_1.deleteRule);
+router.post('/config', business_1.updateBusinessConfig);
+router.get('/contacts', business_1.getContacts);
+exports.default = router;
