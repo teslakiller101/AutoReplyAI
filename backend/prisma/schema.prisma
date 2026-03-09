@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(BUSINESS_OWNER) // BUSINESS_OWNER, ADMIN
+  business  Business?
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  BUSINESS_OWNER
+  ADMIN
+}
+
+model Business {
+  id              String   @id @default(uuid())
+  name            String
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id])
+  
+  // WhatsApp config
+  waAccountId     String?
+  waPhoneNumberId String?
+  waAccessToken   String?
+
+  // AI config
+  description     String?
+  faq             String?  @db.Text
+  products        String?  @db.Text
+  
+  // Billing
+  plan            PlanTier @default(FREE)
+  messagesUsed    Int      @default(0)
+  stripeId        String?
+  
+  contacts        Contact[]
+  messages        Message[]
+  rules           AutoRule[]
+  
+  createdAt       DateTime @default(now())
+}
+
+enum PlanTier {
+  FREE
+  PRO
+  BUSINESS
+}
+
+model Contact {
+  id          String   @id @default(uuid())
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id])
+  phoneNumber String
+  name        String?
+  intent      String?
+  
+  messages    Message[]
+  lastActive  DateTime @default(now())
+}
+
+model Message {
+  id          String   @id @default(uuid())
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id])
+  contactId   String
+  contact     Contact  @relation(fields: [contactId], references: [id])
+  content     String
+  role        MsgRole  // USER, BOT
+  createdAt   DateTime @default(now())
+}
+
+enum MsgRole {
+  USER
+  BOT
+}
+
+model AutoRule {
+  id          String   @id @default(uuid())
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id])
+  keyword     String
+  response    String
+  createdAt   DateTime @default(now())
+}

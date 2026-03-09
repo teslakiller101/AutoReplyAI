@@ -1,0 +1,11 @@
+import { Router, Request, Response } from 'express';
+import { signup, login, getMe } from '../controllers/auth';
+import { requireAuth } from '../middleware/auth';
+
+const router = Router();
+
+router.post('/signup', signup);
+router.post('/login', login);
+router.get('/me', requireAuth, getMe);
+
+export default router;
