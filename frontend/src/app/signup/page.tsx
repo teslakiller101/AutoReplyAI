@@ -20,13 +20,17 @@ export default function Signup() {
     const [error, setError] = useState('');
     const router = useRouter();
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (data: Record<string, string>) => {
         try {
             const res = await api.post('/auth/signup', data);
             localStorage.setItem('token', res.data.token);
             router.push('/dashboard');
-        } catch (err: any) {
-            setError(err.response?.data?.error || 'Signup failed');
+        } catch (err: unknown) {
+            if (typeof err === 'object' && err !== null && 'response' in err) {
+                setError((err as { response: { data: { error: string } } }).response?.data?.error || 'Signup failed');
+            } else {
+                setError('Signup failed');
+            }
         }
     };
 

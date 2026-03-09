@@ -22,7 +22,7 @@ export default function Conversations() {
             {/* Contacts List */}
             <div className="w-1/3 border-r border-gray-100 overflow-y-auto">
                 <h2 className="p-4 font-bold text-gray-900 border-b border-gray-100 bg-gray-50">Leads & Contacts</h2>
-                {isLoading ? <div className="p-4 text-gray-500">Loading...</div> : contacts?.map((c: any) => (
+                {isLoading ? <div className="p-4 text-gray-500">Loading...</div> : contacts?.map((c: { id: string; name: string; phoneNumber: string }) => (
                     <button
                         key={c.id}
                         onClick={() => setSelectedContact(c.id)}
@@ -42,7 +42,7 @@ export default function Conversations() {
                             Conversation History
                         </div>
                         <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                            {messages?.map((m: any) => (
+                            {messages?.map((m: { id: string; role: string; content: string }) => (
                                 <div key={m.id} className={`flex ${m.role === 'BOT' ? 'justify-end' : 'justify-start'}`}>
                                     <div className={`max-w-[70%] rounded-xl p-3 shadow-sm ${m.role === 'BOT' ? 'bg-blue-600 text-white' : 'bg-white text-gray-900 border border-gray-200'}`}>
                                         {m.content}

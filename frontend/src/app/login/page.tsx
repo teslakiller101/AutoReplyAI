@@ -19,13 +19,17 @@ export default function Login() {
     const [error, setError] = useState('');
     const router = useRouter();
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (data: Record<string, string>) => {
         try {
             const res = await api.post('/auth/login', data);
             localStorage.setItem('token', res.data.token);
             router.push('/dashboard');
-        } catch (err: any) {
-            setError(err.response?.data?.error || 'Login failed');
+        } catch (err: unknown) {
+            if (typeof err === 'object' && err !== null && 'response' in err) {
+                setError((err as { response: { data: { error: string } } }).response?.data?.error || 'Login failed');
+            } else {
+                setError('Login failed');
+            }
         }
     };
 

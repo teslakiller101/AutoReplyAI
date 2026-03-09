@@ -14,7 +14,7 @@ export default function Rules() {
     });
 
     const createMutation = useMutation({
-        mutationFn: async (data: any) => await api.post('/business/rules', data),
+        mutationFn: async (data: { keyword: string; response: string }) => await api.post('/business/rules', data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['rules'] });
             setKeyword('');
@@ -56,7 +56,7 @@ export default function Rules() {
                 <h2 className="text-lg font-bold text-gray-900 mb-4">Active Rules ({rules?.length || 0})</h2>
                 {isLoading ? <p className="text-gray-500">Loading rules...</p> : (
                     <div className="space-y-4">
-                        {rules?.map((r: any) => (
+                        {rules?.map((r: { id: string; keyword: string; response: string }) => (
                             <div key={r.id} className="flex flex-col sm:flex-row justify-between sm:items-center p-4 border border-gray-100 rounded-lg bg-gray-50 gap-4">
                                 <div>
                                     <p className="font-bold text-blue-600">If message contains: <span className="text-gray-900 font-extrabold">&quot;{r.keyword}&quot;</span></p>

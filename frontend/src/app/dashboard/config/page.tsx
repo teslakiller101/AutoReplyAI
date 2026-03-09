@@ -26,7 +26,7 @@ export default function Config() {
     }, [user, reset]);
 
     const updateMutation = useMutation({
-        mutationFn: async (data: any) => await api.post('/business/config', data),
+        mutationFn: async (data: Record<string, string>) => await api.post('/business/config', data),
         onSuccess: () => alert('Configuration updated successfully!')
     });
 
