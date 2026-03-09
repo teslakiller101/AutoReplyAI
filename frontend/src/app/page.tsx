@@ -1,11 +1,12 @@
 'use client';
 import { motion } from 'framer-motion';
-import { Bot, Zap, Clock, ShieldCheck, ArrowRight, MessageSquare, BarChart } from 'lucide-react';
+import { Bot, Zap, Clock, ShieldCheck, ArrowRight, MessageSquare, BarChart, Bell } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-neutral-950 overflow-hidden font-sans text-neutral-100">
+    <div className="min-h-screen bg-neutral-950 overflow-hidden font-sans text-neutral-100 selection:bg-blue-500/30">
 
       {/* Dynamic Background Effects */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
@@ -14,16 +15,13 @@ export default function Home() {
 
       {/* Navbar */}
       <nav className="relative z-50 flex items-center justify-between px-8 text-white h-24">
-        <div className="flex items-center gap-2">
-          <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-2 rounded-xl shadow-lg shadow-blue-500/20">
-            <Bot size={28} className="text-white" />
-          </div>
-          <span className="text-2xl font-black tracking-tight tracking-tighter">AutoReply<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">AI</span></span>
-        </div>
+        <Link href="/">
+          <Logo />
+        </Link>
         <div className="hidden md:flex gap-8 text-sm font-medium text-neutral-400">
-          <a href="#features" className="hover:text-white transition-colors py-2">Features</a>
-          <a href="#how" className="hover:text-white transition-colors py-2">How it Works</a>
-          <a href="#pricing" className="hover:text-white transition-colors py-2">Pricing</a>
+          <Link href="/features" className="hover:text-white transition-colors py-2">Features</Link>
+          <Link href="/pricing" className="hover:text-white transition-colors py-2">Pricing</Link>
+          <Link href="/privacy" className="hover:text-white transition-colors py-2">Privacy</Link>
         </div>
         <div className="flex items-center gap-4">
           <Link href="/login" className="text-sm font-medium text-neutral-300 hover:text-white transition py-2 px-4">Log in</Link>
@@ -78,27 +76,66 @@ export default function Home() {
             <ArrowRight size={20} className="relative z-10 transition-transform group-hover:translate-x-1" />
             <div className="absolute inset-0 bg-gradient-to-r from-neutral-200 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </Link>
-          <a href="#how" className="px-8 py-4 rounded-full border border-neutral-700 bg-neutral-900/50 backdrop-blur-sm text-white font-medium text-lg hover:bg-neutral-800 transition flex items-center gap-3">
+          <Link href="/features" className="px-8 py-4 rounded-full border border-neutral-700 bg-neutral-900/50 backdrop-blur-sm text-white font-medium text-lg hover:bg-neutral-800 transition flex items-center gap-3">
             <Zap size={20} className="text-yellow-400" />
-            See How it Works
-          </a>
+            See Features
+          </Link>
         </motion.div>
 
-        {/* Hero Interactive Image */}
+        {/* Hero Interactive Image / CSS Mockup */}
         <motion.div
           initial={{ opacity: 0, y: 100, rotateX: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
           transition={{ duration: 1, delay: 0.6, type: "spring", stiffness: 50 }}
-          className="mt-24 w-full max-w-6xl relative perspective-1000"
+          className="mt-24 w-full max-w-5xl relative perspective-1000"
         >
           {/* Glow Behind Image */}
           <div className="absolute inset-x-10 bottom-0 h-1/2 bg-gradient-to-t from-blue-600/40 to-purple-600/40 blur-[80px] -z-10 rounded-full"></div>
 
-          <img
-            src="/hero-dashboard.png"
-            alt="AutoReply Dashboard showing AI chat and analytics"
-            className="w-full h-auto rounded-2xl border border-neutral-800 shadow-[0_0_80px_rgba(79,70,229,0.2)] object-cover"
-          />
+          {/* High-Res CSS Dashboard Mockup */}
+          <div className="w-full relative rounded-2xl border border-neutral-800/80 bg-neutral-900/60 backdrop-blur-xl shadow-[0_0_80px_rgba(79,70,229,0.15)] overflow-hidden aspect-[16/9] flex text-left">
+            {/* Sidebar */}
+            <div className="w-64 bg-black/40 border-r border-neutral-800/50 p-4 hidden md:flex flex-col gap-6">
+              <div className="opacity-50 pointer-events-none scale-75 origin-top-left"><Logo /></div>
+              <div className="space-y-2 mt-4">
+                <div className="h-10 w-full bg-blue-600/20 rounded-lg border border-blue-500/30 flex items-center px-4 font-semibold text-blue-400 text-sm gap-3"><MessageSquare size={16} /> Live Chats</div>
+                <div className="h-10 w-full hover:bg-white/5 rounded-lg flex items-center px-4 font-medium text-neutral-400 text-sm gap-3"><Zap size={16} /> Automations</div>
+                <div className="h-10 w-full hover:bg-white/5 rounded-lg flex items-center px-4 font-medium text-neutral-400 text-sm gap-3"><BarChart size={16} /> Analytics</div>
+              </div>
+            </div>
+            {/* Main Area */}
+            <div className="flex-1 flex flex-col">
+              {/* Top Bar */}
+              <div className="h-16 border-b border-neutral-800/50 flex items-center justify-between px-6">
+                <div className="font-semibold text-neutral-200">Recent Conversations</div>
+                <div className="flex gap-2">
+                  <div className="h-8 w-8 rounded-full bg-neutral-800 flex items-center justify-center"><Bell size={14} className="text-neutral-400" /></div>
+                  <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border border-white/10"></div>
+                </div>
+              </div>
+              {/* Chat Interface */}
+              <div className="flex-1 p-6 flex gap-6 overflow-hidden">
+                <div className="flex-1 flex flex-col gap-4">
+                  <div className="flex self-start gap-4 max-w-[80%]">
+                    <div className="h-8 w-8 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center border border-green-500/30 shrink-0"><b className="text-xs">WA</b></div>
+                    <div className="bg-neutral-800/80 p-4 rounded-b-xl rounded-tr-xl border border-neutral-700/50 text-sm text-neutral-300">
+                      Hi, do you offer expedited shipping for the Enterprise plan?
+                    </div>
+                  </div>
+                  <div className="flex self-end gap-4 max-w-[80%] flex-row-reverse">
+                    <div className="h-8 w-8 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center border border-blue-500/30 shrink-0"><Bot size={16} /></div>
+                    <div className="bg-blue-600/20 p-4 rounded-b-xl rounded-tl-xl border border-blue-500/30 text-sm text-blue-100">
+                      <p className="font-semibold text-xs text-blue-400 mb-1 flex items-center gap-1"><Zap size={12} /> AI Reply Generated</p>
+                      Hello! Yes, the Enterprise plan includes next-day expedited shipping at no extra cost. Would you like me to send you the upgrade link?
+                    </div>
+                  </div>
+                  <div className="mt-auto h-12 w-full bg-black/40 border border-neutral-800 rounded-lg flex items-center px-4 text-neutral-500 text-sm">
+                    AI agent is active and monitoring...
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </section>
 
@@ -152,14 +189,13 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-6 border-t border-neutral-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm font-medium text-neutral-500">
           <div className="flex items-center gap-2 mb-4 md:mb-0">
-            <Bot size={20} className="text-neutral-400" />
-            <span className="font-bold text-neutral-300">AutoReply AI</span>
-            <span className="ml-2">© 2026 Systems Inc.</span>
+            <Link href="/" className="scale-75 origin-left pointer-events-none"><Logo /></Link>
+            <span className="ml-2">© 2026 AutoReply AI Inc.</span>
           </div>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition">Twitter</a>
-            <a href="#" className="hover:text-white transition">Terms</a>
-            <a href="#" className="hover:text-white transition">Privacy</a>
+            <Link href="/features" className="hover:text-white transition">Features</Link>
+            <Link href="/pricing" className="hover:text-white transition">Pricing</Link>
+            <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
           </div>
         </div>
       </footer>

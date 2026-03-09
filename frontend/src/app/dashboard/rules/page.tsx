@@ -28,44 +28,44 @@ export default function Rules() {
     });
 
     return (
-        <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8">Custom Automations</h1>
+        <div className="max-w-4xl mx-auto relative z-10">
+            <h1 className="text-3xl font-black text-white mb-8 tracking-tight">Custom Automations</h1>
 
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-8">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">Add New Rule</h2>
-                <div className="space-y-4">
+            <div className="bg-neutral-900/50 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-neutral-800 mb-8">
+                <h2 className="text-xl font-bold text-white mb-6">Add New Rule</h2>
+                <div className="space-y-5">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Trigger Keyword</label>
-                        <input value={keyword} onChange={e => setKeyword(e.target.value)} type="text" placeholder="e.g. price, location" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border" />
+                        <label className="block text-sm font-bold text-neutral-300 tracking-wide mb-2">Trigger Keyword</label>
+                        <input value={keyword} onChange={e => setKeyword(e.target.value)} type="text" placeholder="e.g. price, location" className="block w-full rounded-xl bg-neutral-950 border border-neutral-800 py-3 text-white placeholder-neutral-500 shadow-sm focus:ring-2 focus:border-blue-500 focus:ring-blue-600 sm:text-sm px-4 outline-none transition" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Bot Reply</label>
-                        <textarea value={response} onChange={e => setResponse(e.target.value)} placeholder="The message sent when keyword is detected" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border h-24" />
+                        <label className="block text-sm font-bold text-neutral-300 tracking-wide mb-2">Bot Reply</label>
+                        <textarea value={response} onChange={e => setResponse(e.target.value)} placeholder="The message sent when keyword is detected" className="block w-full rounded-xl bg-neutral-950 border border-neutral-800 py-3 text-white placeholder-neutral-500 shadow-sm focus:ring-2 focus:border-blue-500 focus:ring-blue-600 sm:text-sm px-4 outline-none transition h-28 resize-none" />
                     </div>
                     <button
                         disabled={!keyword || !response || createMutation.isPending}
                         onClick={() => createMutation.mutate({ keyword, response })}
-                        className="rounded-md bg-blue-600 px-4 py-2 text-white font-medium hover:bg-blue-700 transition disabled:opacity-50 shadow-sm"
+                        className="rounded-xl bg-blue-600 px-6 py-3 text-white font-bold hover:bg-blue-500 transition disabled:opacity-50 shadow-[0_0_20px_rgba(37,99,235,0.2)] mt-2"
                     >
                         {createMutation.isPending ? 'Saving...' : 'Create Rule'}
                     </button>
                 </div>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">Active Rules ({rules?.length || 0})</h2>
-                {isLoading ? <p className="text-gray-500">Loading rules...</p> : (
+            <div className="bg-neutral-900/50 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-neutral-800">
+                <h2 className="text-xl font-bold text-white mb-6">Active Rules ({rules?.length || 0})</h2>
+                {isLoading ? <p className="text-neutral-500 font-medium">Loading rules...</p> : (
                     <div className="space-y-4">
                         {rules?.map((r: { id: string; keyword: string; response: string }) => (
-                            <div key={r.id} className="flex flex-col sm:flex-row justify-between sm:items-center p-4 border border-gray-100 rounded-lg bg-gray-50 gap-4">
+                            <div key={r.id} className="flex flex-col sm:flex-row justify-between sm:items-center p-5 border border-neutral-800 rounded-xl bg-neutral-950/50 gap-4 hover:border-neutral-700 transition">
                                 <div>
-                                    <p className="font-bold text-blue-600">If message contains: <span className="text-gray-900 font-extrabold">&quot;{r.keyword}&quot;</span></p>
-                                    <p className="text-gray-700 mt-2">{r.response}</p>
+                                    <p className="font-bold text-blue-400">If message contains: <span className="text-white font-black px-2 py-1 bg-neutral-800 rounded-md ml-1">&quot;{r.keyword}&quot;</span></p>
+                                    <p className="text-neutral-300 mt-3 leading-relaxed">{r.response}</p>
                                 </div>
-                                <button onClick={() => deleteMutation.mutate(r.id)} className="text-red-600 hover:text-red-800 px-4 py-2 font-medium bg-red-50 hover:bg-red-100 transition rounded-md shadow-sm whitespace-nowrap">Delete Rule</button>
+                                <button onClick={() => deleteMutation.mutate(r.id)} className="text-red-400 hover:text-red-300 px-4 py-2 font-bold bg-red-950/30 hover:bg-red-900/50 transition rounded-lg border border-red-900/30 whitespace-nowrap">Delete Rule</button>
                             </div>
                         ))}
-                        {rules?.length === 0 && <p className="text-gray-500">No auto rules defined yet.</p>}
+                        {rules?.length === 0 && <p className="text-neutral-500 font-medium">No auto rules defined yet.</p>}
                     </div>
                 )}
             </div>

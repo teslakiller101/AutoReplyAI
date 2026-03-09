@@ -18,43 +18,52 @@ export default function Conversations() {
     });
 
     return (
-        <div className="max-w-7xl mx-auto flex h-[calc(100vh-10rem)] bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="max-w-7xl mx-auto flex h-[calc(100vh-10rem)] bg-neutral-900/50 rounded-2xl shadow-2xl border border-neutral-800 overflow-hidden relative z-10 backdrop-blur-xl">
             {/* Contacts List */}
-            <div className="w-1/3 border-r border-gray-100 overflow-y-auto">
-                <h2 className="p-4 font-bold text-gray-900 border-b border-gray-100 bg-gray-50">Leads & Contacts</h2>
-                {isLoading ? <div className="p-4 text-gray-500">Loading...</div> : contacts?.map((c: { id: string; name: string; phoneNumber: string }) => (
+            <div className="w-1/3 border-r border-neutral-800 overflow-y-auto bg-neutral-950/50">
+                <h2 className="p-5 font-black tracking-tight text-white border-b border-neutral-800 bg-neutral-900/80 backdrop-blur-md sticky top-0 z-20">Leads & Contacts</h2>
+                {isLoading ? <div className="p-5 text-neutral-500">Loading...</div> : contacts?.map((c: { id: string; name: string; phoneNumber: string }) => (
                     <button
                         key={c.id}
                         onClick={() => setSelectedContact(c.id)}
-                        className={`w-full text-left p-4 border-b border-gray-50 hover:bg-blue-50 transition ${selectedContact === c.id ? 'bg-blue-50 border-l-4 border-blue-600' : ''}`}
+                        className={`w-full text-left p-5 border-b border-neutral-800/50 hover:bg-white/5 transition flex flex-col gap-1 ${selectedContact === c.id ? 'bg-white/10 border-l-4 border-blue-500' : 'border-l-4 border-transparent'}`}
                     >
-                        <div className="font-semibold text-gray-900">{c.name || c.phoneNumber}</div>
-                        <div className="text-sm text-gray-500">{c.phoneNumber}</div>
+                        <div className="font-bold text-neutral-100">{c.name || c.phoneNumber}</div>
+                        <div className="text-xs text-neutral-400 font-medium tracking-wide">{c.phoneNumber}</div>
                     </button>
                 ))}
             </div>
 
             {/* Messages */}
-            <div className="w-2/3 flex flex-col bg-gray-50">
+            <div className="w-2/3 flex flex-col bg-neutral-950">
                 {selectedContact ? (
                     <>
-                        <div className="p-4 border-b border-gray-100 bg-white shadow-sm z-10 font-bold text-gray-900">
-                            Conversation History
+                        <div className="p-5 border-b border-neutral-800 bg-neutral-900/80 backdrop-blur-md shadow-sm z-10 font-bold text-white flex items-center justify-between">
+                            <span>Conversation History</span>
+                            <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> WhatsApp Live
+                            </span>
                         </div>
-                        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                        <div className="flex-1 overflow-y-auto p-6 space-y-6">
                             {messages?.map((m: { id: string; role: string; content: string }) => (
                                 <div key={m.id} className={`flex ${m.role === 'BOT' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[70%] rounded-xl p-3 shadow-sm ${m.role === 'BOT' ? 'bg-blue-600 text-white' : 'bg-white text-gray-900 border border-gray-200'}`}>
+                                    <div className={`max-w-[80%] rounded-2xl p-4 shadow-sm text-sm ${m.role === 'BOT'
+                                            ? 'bg-blue-600/20 text-blue-50 border border-blue-500/30 rounded-br-sm'
+                                            : 'bg-neutral-800/80 text-neutral-200 border border-neutral-700/50 rounded-bl-sm'
+                                        }`}>
                                         {m.content}
                                     </div>
                                 </div>
                             ))}
-                            {messages?.length === 0 && <p className="text-gray-500 text-center mt-4">No messages yet.</p>}
+                            {messages?.length === 0 && <p className="text-neutral-500 text-center mt-10">No messages yet.</p>}
                         </div>
                     </>
                 ) : (
-                    <div className="flex-1 flex items-center justify-center text-gray-500">
-                        Select a contact to view conversation
+                    <div className="flex-1 flex flex-col items-center justify-center text-neutral-500 gap-4">
+                        <div className="w-16 h-16 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center">
+                            <span className="text-2xl text-neutral-600">💬</span>
+                        </div>
+                        <p className="font-medium">Select a contact to view conversation</p>
                     </div>
                 )}
             </div>
